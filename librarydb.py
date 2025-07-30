@@ -21,7 +21,7 @@ from flask import send_from_directory
  
 app = Flask(__name__)
 CORS(app,supports_credentials=True, resources={r"/*": {"origins": "*"}})
-db.init_app(app)
+
 
 # Configuration - Use environment variables in production
 DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI')
@@ -57,6 +57,7 @@ if not firebase_admin._apps:
         'databaseURL': 'https://sccs-a27f7-default-rtdb.firebaseio.com/'
     })
 
+db.init_app(app)
 
 # --- Authentication Middleware ---
 @app.before_request
