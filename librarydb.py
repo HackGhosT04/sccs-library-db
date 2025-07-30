@@ -24,11 +24,12 @@ CORS(app,supports_credentials=True, resources={r"/*": {"origins": "*"}})
 db.init_app(app)
 
 # Configuration - Use environment variables in production
-DATABASE_URL = os.environ.get('DATABASE_URL')
-if not DATABASE_URL:
-    raise RuntimeError("DATABASE_URL env var is required")
+DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI')
+if not DATABASE_URI:
+    raise RuntimeError("SQLALCHEMY_DATABASE_URI env var is required")
 
-app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
+app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URI
+
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET', 'super-secret-key')
