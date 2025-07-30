@@ -14,15 +14,11 @@ import traceback
 from sqlalchemy.dialects.mysql import LONGBLOB
 import base64
 from extensions import db
-from librarydb_ext import User,OperatingTime,Library,OperatingTime, Library, StudyRoom, StudyRoomMedia, StudyRoomMindMap, StudyRoomMember
 from sqlalchemy import Table
 from werkzeug.utils import secure_filename
 from flask import send_from_directory
 
  
-
-
-
 app = Flask(__name__)
 CORS(app,supports_credentials=True, resources={r"/*": {"origins": "*"}})
 db.init_app(app)
