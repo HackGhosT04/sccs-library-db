@@ -11,18 +11,15 @@ from sqlalchemy import func, and_, or_
 from werkzeug.exceptions import NotFound, Unauthorized, Forbidden
 from sqlalchemy.exc import SQLAlchemyError
 import traceback
-from sqlalchemy.dialects.mysql import LONGBLOB
 import base64
 from extensions import db
-from sqlalchemy import Table
+from sqlalchemy import LargeBinary, Text, String
 from werkzeug.utils import secure_filename
 from flask import send_from_directory
 
- 
 app = Flask(__name__)
 CORS(app,supports_credentials=True, resources={r"/*": {"origins": "*"}})
-
-
+ 
 # Configuration - Use environment variables in production
 DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI')
 if not DATABASE_URI:
