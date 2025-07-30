@@ -33,6 +33,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URI
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET', 'super-secret-key')
+db.init_app(app)
 
 # Initialize Firebase
 # Load the JSON string from the environment
@@ -57,7 +58,7 @@ if not firebase_admin._apps:
         'databaseURL': 'https://sccs-a27f7-default-rtdb.firebaseio.com/'
     })
 
-db.init_app(app)
+
 
 # --- Authentication Middleware ---
 @app.before_request
