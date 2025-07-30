@@ -1281,36 +1281,7 @@ def all_libraries():
         'type':       l.type,
     } for l in libs])
 
-# 15. User Registration (Sync with Firebase)
-@app.route('/register', methods=['POST'])
-def register_user():
-    data = request.get_json()
-    firebase_uid = data.get('firebase_uid')
-    
-    if not firebase_uid:
-        return jsonify({'error': 'Firebase UID required'}), 400
-    
-    # Check if user exists
-    existing = User.query.filter_by(firebase_uid=firebase_uid).first()
-    if existing:
-        return jsonify({'user_id': existing.user_id}), 200
-    
-    # Create new user
-    user = User(
-        firebase_uid=firebase_uid,
-        name=data['name'],
-        email=data['email'],
-        role=data.get('role', 'student')
-    )
-    
-    db.session.add(user)
-    db.session.commit()
-    
-    return jsonify({
-        'user_id': user.user_id,
-        'name': user.name,
-        'email': user.email
-    }), 201
+
 
 # --- Study Room Endpoints ---
 
