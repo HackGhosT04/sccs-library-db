@@ -52,7 +52,7 @@ if not firebase_admin._apps:
     # Use it to create the credential
     cred          = credentials.Certificate(cred_dict)
     firebase_admin.initialize_app(cred, {
-        'databaseURL': 'https://sccs-a27f7-default-rtdb.firebaseio.com/'
+        'databaseURL': 'https://sccs-26809-default-rtdb.firebaseio.com/'
     })
 
 
