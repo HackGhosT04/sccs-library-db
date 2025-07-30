@@ -131,7 +131,7 @@ class Book(db.Model):
     year = db.Column(db.Integer)
     copies_total = db.Column(db.Integer, default=1)
     copies_available = db.Column(db.Integer, default=1)
-    image= db.Column(LONGBLOB, nullable=True)  
+    image= db.Column(LargeBinary, nullable=True)  
     
     # Relationships
     reservations = db.relationship('Reservation', backref='book', lazy=True)
