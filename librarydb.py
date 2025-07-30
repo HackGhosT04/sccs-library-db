@@ -95,7 +95,7 @@ class User(db.Model):
     firebase_uid = db.Column(db.String(128), unique=True, nullable=False)
     name = db.Column(db.String(256), nullable=False)
     email = db.Column(db.String(256), unique=True, nullable=False)
-    role = db.Column(db.Enum('student', 'staff'), nullable=False, default='student')
+    role = db.Column(db.Enum('student', 'staff',name='user_role'), nullable=False, default='student')
     
     # Relationships
     reservations = db.relationship('Reservation', backref='user', lazy=True)
@@ -148,7 +148,7 @@ class Reservation(db.Model):
     library_id = db.Column(db.Integer, db.ForeignKey('library.library_id'), nullable=False)
     reserved_from = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     reserved_until = db.Column(db.DateTime, nullable=False)
-    status = db.Column(db.Enum('active', 'cancelled', 'fulfilled'), default='active')
+    status = db.Column(db.Enum('active', 'cancelled', 'fulfilled',name='reservation_status'), default='active')
 
 class Loan(db.Model):
     __tablename__ = 'loan'
@@ -165,7 +165,7 @@ class FeeFine(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable=False)
     amount = db.Column(db.Numeric(8,2), nullable=False)
     description = db.Column(db.Text)
-    status = db.Column(db.Enum('unpaid', 'paid'), default='unpaid')
+    status = db.Column(db.Enum('unpaid', 'paid',name='fee_status'), default='unpaid')
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
 class Announcement(db.Model):
