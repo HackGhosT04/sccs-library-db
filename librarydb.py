@@ -1281,33 +1281,6 @@ def all_libraries():
         'type':       l.type,
     } for l in libs])
 
-
-
-
-# 7. Chat Messages
-@app.route('/libraries/<int:library_id>/chat/messages', methods=['GET', 'POST'])
-def chat_messages(library_id):
-    ref = firebase_db.reference(f'chats/{library_id}/messages')
-    
-    if request.method == 'GET':
-        # Get last 50 messages
-        messages = ref.order_by_child('timestamp').limit_to_last(50).get() or {}
-        return jsonify(list(messages.values()))
-    
-    elif request.method == 'POST':
-        data = request.get_json()
-        msg_id = str(uuid.uuid4())
-        
-        payload = {
-            'user_id': request.current_user.user_id,
-            'name': request.current_user.name,
-            'text': data['text'],
-            'timestamp': datetime.utcnow().isoformat()
-        }
-        
-        ref.child(msg_id).set(payload)
-        return jsonify(payload), 201
-
 # 15. User Registration (Sync with Firebase)
 @app.route('/register', methods=['POST'])
 def register_user():
