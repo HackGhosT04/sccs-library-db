@@ -858,7 +858,10 @@ def view_fees(user_id):
     if user_id != g.current_user.firebase_uid:
         raise Forbidden('Unauthorized access')
     
-    fees = FeeFine.query.filter_by(user_id=user_id, status='unpaid').all()
+    fees = (FeeFine.query
+        .join(User, FeeFine.user_id == User.user_id)
+        .filter(User.firebase_uid == firebase_uid, FeeFine.status == 'unpaid')
+        .all())
     total = sum(float(fee.amount) for fee in fees)
     
     return jsonify({
