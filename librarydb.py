@@ -854,16 +854,20 @@ def renew_loan(loan_id):
 # 6. User Fees
 @app.route('/users/<string:user_id>/fees', methods=['GET'])
 def view_fees(user_id):
-    # Assuming g.current_user.user_id is also a Firebase UID string
+    # Ensure the user is fetching their own fees
     if user_id != g.current_user.firebase_uid:
         raise Forbidden('Unauthorized access')
     
-    fees = (FeeFine.query
+    # Query using the UID from the route
+    fees = (
+        FeeFine.query
         .join(User, FeeFine.user_id == User.user_id)
-        .filter(User.firebase_uid == firebase_uid, FeeFine.status == 'unpaid')
-        .all())
+        .filter(User.firebase_uid == user_id, FeeFine.status == 'unpaid')
+        .all()
+    )
+
     total = sum(float(fee.amount) for fee in fees)
-    
+
     return jsonify({
         'total': total,
         'fees': [{
@@ -873,6 +877,7 @@ def view_fees(user_id):
             'created_at': f.created_at.isoformat()
         } for f in fees]
     })
+
 
 
 # 7. Chat Messages
